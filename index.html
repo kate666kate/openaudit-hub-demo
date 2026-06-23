@@ -87,11 +87,22 @@
     .progress { height: 12px; margin: 18px 0; border-radius: 99px; background: #e8edf3; overflow: hidden; }
     .progress span { display: block; width: 0; height: 100%; background: linear-gradient(90deg,var(--blue),var(--cyan)); transition: .6s; }
     .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .portfolio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .portfolio .card { cursor: pointer; transition: transform .18s ease, box-shadow .18s ease; }
+    .portfolio .card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(16,24,40,.12); }
+    .site-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .metric { padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fbfdff; }
+    .metric strong { display: block; font-size: 1.8rem; letter-spacing: -.05em; }
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .compare .panel { padding: 18px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+    .compare ul { margin: 12px 0 0; padding-left: 18px; color: var(--muted); }
+    .callout { padding: 16px 18px; border: 1px solid #cfe0ff; border-radius: 10px; background: linear-gradient(90deg, #f8fbff, #eef5ff); }
+    .stack { display: grid; gap: 18px; }
     .timeline { display: grid; gap: 12px; }
     .timeline article { padding-left: 16px; border-left: 4px solid #c7d7ff; }
     .kbd { padding: 2px 6px; border: 1px solid #ccd6e3; border-radius: 5px; background: #f8fafc; font-size: .85em; }
-    @media (max-width: 1120px) { .score { grid-column: span 6; } .wide, .third, .banner { grid-column: span 12; } .banner { grid-template-columns: 1fr; } }
-    @media (max-width: 780px) { .app { display: block; } .mobile { display: flex; } .top { display: none; } .side { position: fixed; inset: 0 auto 0 0; width: min(84vw, 320px); transform: translateX(-105%); transition: .22s; z-index: 30; box-shadow: var(--shadow); } .side.open { transform: translateX(0); } .page { padding: 18px 14px 34px; } .filters { display: grid; } .filters > * { width: 100%; } .score, .wide, .full, .third { grid-column: span 12; } .steps, .split, .issuehero { grid-template-columns: 1fr; } }
+    @media (max-width: 1120px) { .score { grid-column: span 6; } .wide, .third, .banner { grid-column: span 12; } .banner, .portfolio, .compare { grid-template-columns: 1fr; } }
+    @media (max-width: 780px) { .app { display: block; } .mobile { display: flex; } .top { display: none; } .side { position: fixed; inset: 0 auto 0 0; width: min(84vw, 320px); transform: translateX(-105%); transition: .22s; z-index: 30; box-shadow: var(--shadow); } .side.open { transform: translateX(0); } .page { padding: 18px 14px 34px; } .filters { display: grid; } .filters > * { width: 100%; } .score, .wide, .full, .third { grid-column: span 12; } .steps, .split, .issuehero, .portfolio, .compare { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -101,13 +112,16 @@
       <div class="brand">OpenAudit Hub</div>
       <input class="search" id="search" placeholder="Search in menu">
       <div class="section">Main</div>
-      <button class="nav active" data-go="dashboard">Dashboard <span>Overview</span></button>
+      <button class="nav active" data-go="portfolio">Portfolio <span>Sites</span></button>
+      <button class="nav" data-go="dashboard">Dashboard <span>Overview</span></button>
+      <button class="nav" data-go="summary">Executive summary <span>Story</span></button>
       <button class="nav" data-go="accessibility">Accessibility <span>WCAG</span></button>
       <button class="nav" data-go="seo">SEO <span>Keywords</span></button>
       <button class="nav" data-go="content">Content Quality <span>Pages</span></button>
       <button class="nav" data-go="analytics">Analytics <span>Demo</span></button>
       <div class="section">Workflow</div>
       <button class="nav" data-go="scan">Run demo scan <span>Safe</span></button>
+      <button class="nav" data-go="improvements">Before / after <span>Impact</span></button>
       <button class="nav" data-go="plan">Activity plan <span>Tasks</span></button>
       <button class="nav" data-go="inspector">Page inspector <span>Evidence</span></button>
       <button class="nav" data-go="architecture">Architecture <span>Docker</span></button>
@@ -124,7 +138,22 @@
           <button class="control" data-link="scan">Run demo scan</button>
         </div>
 
-        <div class="screen active" id="dashboard">
+        <div class="screen active" id="portfolio">
+          <h1>Website portfolio</h1>
+          <div class="stack">
+            <div class="callout">
+              <strong>Presentation-safe multi-site view.</strong>
+              <p class="muted">The public demo highlights one real public website snapshot and shows how OpenAudit Hub can scale to a portfolio workflow. In production, each site card would be backed by fresh scans and historical trends.</p>
+            </div>
+            <div class="portfolio">
+              <article class="card" data-link="dashboard"><div class="head"><h2>Truck Hardware Australia</h2><span class="badge good">Live demo dataset</span></div><div class="body"><p class="muted">Public scan snapshot for interview walkthroughs.</p><div class="site-meta"><div class="metric"><span class="muted">DCI</span><strong>79</strong></div><div class="metric"><span class="muted">Issues</span><strong>279</strong></div><div class="metric"><span class="muted">Pages</span><strong>20</strong></div></div></div></article>
+              <article class="card"><div class="head"><h2>Wholesale Parts Group</h2><span class="badge warn">Planned</span></div><div class="body"><p class="muted">Example second site for enterprise portfolio reporting.</p><div class="site-meta"><div class="metric"><span class="muted">DCI</span><strong>76</strong></div><div class="metric"><span class="muted">Focus</span><strong>SEO</strong></div><div class="metric"><span class="muted">Trend</span><strong>Up</strong></div></div></div></article>
+              <article class="card"><div class="head"><h2>Support Microsite</h2><span class="badge warn">Planned</span></div><div class="body"><p class="muted">Example third site showing content governance and policy tracking.</p><div class="site-meta"><div class="metric"><span class="muted">DCI</span><strong>71</strong></div><div class="metric"><span class="muted">Focus</span><strong>A11y</strong></div><div class="metric"><span class="muted">Trend</span><strong>Flat</strong></div></div></div></article>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen" id="dashboard">
           <h1>Dashboard</h1>
           <div class="grid">
             <section class="banner">
@@ -148,6 +177,17 @@
 
             <article class="card wide"><div class="head"><h2>Score history</h2><span class="muted">Demo trend</span></div><div class="body"><svg class="spark" viewBox="0 0 560 160"><path d="M20 125 C70 88 90 126 130 78 S210 86 250 58 S330 100 370 52 S450 74 530 34" fill="none" stroke="#2363f6" stroke-width="8" stroke-linecap="round"/><path d="M20 105 C90 112 130 70 190 82 S280 42 340 76 S430 50 530 72" fill="none" stroke="#35c96f" stroke-width="6" stroke-linecap="round" opacity=".85"/></svg></div></article>
             <article class="card wide"><div class="head"><h2>Audit snapshot</h2></div><div class="body"><div class="status"><span class="dot"></span><strong>Website</strong><span>truckhardware.com.au</span></div><div class="status"><span class="dot"></span><strong>Lighthouse</strong><span>3 page reports</span></div><div class="status"><span class="dot"></span><strong>Pa11y</strong><span>20 pages checked</span></div><div class="status"><span class="dot warn"></span><strong>Findings</strong><span>279 accessibility issues</span></div></div></article>
+          </div>
+        </div>
+
+        <div class="screen" id="summary">
+          <h1>Executive summary</h1>
+          <div class="grid">
+            <article class="card full"><div class="head"><h2>What this site needs first</h2><button class="btn" data-link="improvements">Show improvement story</button></div><div class="body split"><div><h3>Top takeaway</h3><p class="muted">Truck Hardware is in solid shape overall, but repeated template issues are dragging down accessibility and consistency. The biggest return comes from fixing shared product-page components once rather than editing pages one by one.</p></div><div><h3>What to do next</h3><p class="muted">Prioritize image alt text, control naming, and contrast cleanup. Those three themes account for most findings and are realistic to explain in an interview as content-plus-theme work.</p></div></div></article>
+            <article class="card third"><div class="head"><h2>Largest risk</h2></div><div class="body"><strong>Repeated template issues</strong><p class="muted">Product-page patterns generate the same problems across multiple URLs.</p></div></article>
+            <article class="card third"><div class="head"><h2>Fastest win</h2></div><div class="body"><strong>Image alt text</strong><p class="muted">A focused content and theme pass can remove up to 97 image-related findings.</p></div></article>
+            <article class="card third"><div class="head"><h2>Best interview line</h2></div><div class="body"><strong>Fix once, improve many pages</strong><p class="muted">This sounds strategic and shows platform thinking instead of page-by-page patching.</p></div></article>
+            <article class="card full"><div class="head"><h2>Recommended first 30 days</h2></div><div class="table"><table><thead><tr><th>Week</th><th>Goal</th><th>Owner</th><th>Outcome</th></tr></thead><tbody><tr><td>Week 1</td><td>Confirm template-level accessibility defects</td><td>Development</td><td>Clear list of reusable fixes</td></tr><tr><td>Week 2</td><td>Update alt text and link purpose across key product imagery</td><td>Content</td><td>Image issue count starts falling quickly</td></tr><tr><td>Week 3</td><td>Fix control names and form labels in Shopify theme components</td><td>Development</td><td>Shared product pages become more usable</td></tr><tr><td>Week 4</td><td>Re-run audit and show score movement</td><td>Platform owner</td><td>Demonstrable before/after story</td></tr></tbody></table></div></article>
           </div>
         </div>
 
@@ -194,6 +234,49 @@
           <h1>Issue detail</h1>
           <div class="issuehero"><div><p class="badge">Accessibility</p><h2>Images missing alt attributes</h2><p class="muted">Pa11y found 58 image elements without alt attributes and 39 linked images missing link purpose across the Truck Hardware snapshot.</p></div><div class="body card" style="text-align:center"><span class="muted">Occurrences</span><strong style="display:block;font-size:3rem">97</strong></div></div>
           <div class="steps"><div class="step"><strong>1. Identify template images</strong><span class="muted">Fix repeated logo/product image patterns once in the Shopify theme.</span></div><div class="step"><strong>2. Write meaningful alternatives</strong><span class="muted">Describe product type, purpose, or destination for linked images.</span></div><div class="step"><strong>3. Re-run Pa11y</strong><span class="muted">Confirm H37 and H30.2 findings disappear from affected pages.</span></div></div>
+        </div>
+
+        <div class="screen" id="improvements">
+          <h1>Before / after</h1>
+          <div class="stack">
+            <div class="callout">
+              <strong>This page gives you the interview story.</strong>
+              <p class="muted">Use it to explain how OpenAudit Hub is not only about finding issues, but about driving measurable improvement after the scan.</p>
+            </div>
+            <div class="compare">
+              <div class="panel">
+                <span class="badge warn">Before</span>
+                <h2 style="margin-top:12px">Initial audit snapshot</h2>
+                <div class="site-meta">
+                  <div class="metric"><span class="muted">Accessibility findings</span><strong>279</strong></div>
+                  <div class="metric"><span class="muted">DCI</span><strong>79</strong></div>
+                  <div class="metric"><span class="muted">A11y score</span><strong>82</strong></div>
+                </div>
+                <ul>
+                  <li>58 images without alt text</li>
+                  <li>58 unnamed buttons or controls</li>
+                  <li>48 contrast failures</li>
+                  <li>Template issues repeated across product pages</li>
+                </ul>
+              </div>
+              <div class="panel">
+                <span class="badge good">After</span>
+                <h2 style="margin-top:12px">Projected first improvement cycle</h2>
+                <div class="site-meta">
+                  <div class="metric"><span class="muted">Accessibility findings</span><strong>143</strong></div>
+                  <div class="metric"><span class="muted">DCI</span><strong>85</strong></div>
+                  <div class="metric"><span class="muted">A11y score</span><strong>90</strong></div>
+                </div>
+                <ul>
+                  <li>Most image issues removed through theme and content updates</li>
+                  <li>Shared controls named once in reusable components</li>
+                  <li>High-visibility contrast defects cleaned up</li>
+                  <li>Clear re-audit story for leadership and clients</li>
+                </ul>
+              </div>
+            </div>
+            <article class="card full"><div class="head"><h2>What changed</h2></div><div class="table"><table><thead><tr><th>Improvement</th><th>Why it matters</th><th>Expected result</th></tr></thead><tbody><tr><td>Alt text rollout</td><td>Removes the most frequent accessibility failure</td><td>Large drop in image-related findings</td></tr><tr><td>Theme control naming</td><td>Improves keyboard and screen-reader usability on every product page</td><td>Cleaner product-page template health</td></tr><tr><td>Contrast pass</td><td>Improves readability and visual accessibility</td><td>Fewer AA failures and clearer UI</td></tr></tbody></table></div></article>
+          </div>
         </div>
 
         <div class="screen" id="plan">
@@ -248,6 +331,7 @@
 
     nav.forEach(item => item.onclick = () => go(item.dataset.go));
     document.querySelectorAll("[data-link]").forEach(item => item.onclick = () => go(item.dataset.link));
+    document.querySelectorAll(".portfolio .card[data-link]").forEach(item => item.onclick = () => go(item.dataset.link));
     document.querySelector("#menu").onclick = () => side.classList.toggle("open");
     document.querySelector("#search").oninput = event => {
       const query = event.target.value.toLowerCase();
