@@ -87,9 +87,6 @@
     .progress { height: 12px; margin: 18px 0; border-radius: 99px; background: #e8edf3; overflow: hidden; }
     .progress span { display: block; width: 0; height: 100%; background: linear-gradient(90deg,var(--blue),var(--cyan)); transition: .6s; }
     .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-    .portfolio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-    .portfolio .card { cursor: pointer; transition: transform .18s ease, box-shadow .18s ease; }
-    .portfolio .card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(16,24,40,.12); }
     .site-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
     .metric { padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fbfdff; }
     .metric strong { display: block; font-size: 1.8rem; letter-spacing: -.05em; }
@@ -101,8 +98,8 @@
     .timeline { display: grid; gap: 12px; }
     .timeline article { padding-left: 16px; border-left: 4px solid #c7d7ff; }
     .kbd { padding: 2px 6px; border: 1px solid #ccd6e3; border-radius: 5px; background: #f8fafc; font-size: .85em; }
-    @media (max-width: 1120px) { .score { grid-column: span 6; } .wide, .third, .banner { grid-column: span 12; } .banner, .portfolio, .compare { grid-template-columns: 1fr; } }
-    @media (max-width: 780px) { .app { display: block; } .mobile { display: flex; } .top { display: none; } .side { position: fixed; inset: 0 auto 0 0; width: min(84vw, 320px); transform: translateX(-105%); transition: .22s; z-index: 30; box-shadow: var(--shadow); } .side.open { transform: translateX(0); } .page { padding: 18px 14px 34px; } .filters { display: grid; } .filters > * { width: 100%; } .score, .wide, .full, .third { grid-column: span 12; } .steps, .split, .issuehero, .portfolio, .compare { grid-template-columns: 1fr; } }
+    @media (max-width: 1120px) { .score { grid-column: span 6; } .wide, .third, .banner { grid-column: span 12; } .banner, .compare { grid-template-columns: 1fr; } }
+    @media (max-width: 780px) { .app { display: block; } .mobile { display: flex; } .top { display: none; } .side { position: fixed; inset: 0 auto 0 0; width: min(84vw, 320px); transform: translateX(-105%); transition: .22s; z-index: 30; box-shadow: var(--shadow); } .side.open { transform: translateX(0); } .page { padding: 18px 14px 34px; } .filters { display: grid; } .filters > * { width: 100%; } .score, .wide, .full, .third { grid-column: span 12; } .steps, .split, .issuehero, .compare { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -112,8 +109,7 @@
       <div class="brand">OpenAudit Hub</div>
       <input class="search" id="search" placeholder="Search in menu">
       <div class="section">Main</div>
-      <button class="nav active" data-go="portfolio">Portfolio <span>Sites</span></button>
-      <button class="nav" data-go="dashboard">Dashboard <span>Overview</span></button>
+      <button class="nav active" data-go="dashboard">Dashboard <span>Overview</span></button>
       <button class="nav" data-go="summary">Executive summary <span>Story</span></button>
       <button class="nav" data-go="accessibility">Accessibility <span>WCAG</span></button>
       <button class="nav" data-go="seo">SEO <span>Keywords</span></button>
@@ -138,22 +134,7 @@
           <button class="control" data-link="scan">Run demo scan</button>
         </div>
 
-        <div class="screen active" id="portfolio">
-          <h1>Website portfolio</h1>
-          <div class="stack">
-            <div class="callout">
-              <strong>Presentation-safe multi-site view.</strong>
-              <p class="muted">The public demo highlights one real public website snapshot and shows how OpenAudit Hub can scale to a portfolio workflow. In production, each site card would be backed by fresh scans and historical trends.</p>
-            </div>
-            <div class="portfolio">
-              <article class="card" data-link="dashboard"><div class="head"><h2>Truck Hardware Australia</h2><span class="badge good">Live demo dataset</span></div><div class="body"><p class="muted">Public scan snapshot for interview walkthroughs.</p><div class="site-meta"><div class="metric"><span class="muted">DCI</span><strong>79</strong></div><div class="metric"><span class="muted">Issues</span><strong>279</strong></div><div class="metric"><span class="muted">Pages</span><strong>20</strong></div></div></div></article>
-              <article class="card"><div class="head"><h2>Wholesale Parts Group</h2><span class="badge warn">Planned</span></div><div class="body"><p class="muted">Example second site for enterprise portfolio reporting.</p><div class="site-meta"><div class="metric"><span class="muted">DCI</span><strong>76</strong></div><div class="metric"><span class="muted">Focus</span><strong>SEO</strong></div><div class="metric"><span class="muted">Trend</span><strong>Up</strong></div></div></div></article>
-              <article class="card"><div class="head"><h2>Support Microsite</h2><span class="badge warn">Planned</span></div><div class="body"><p class="muted">Example third site showing content governance and policy tracking.</p><div class="site-meta"><div class="metric"><span class="muted">DCI</span><strong>71</strong></div><div class="metric"><span class="muted">Focus</span><strong>A11y</strong></div><div class="metric"><span class="muted">Trend</span><strong>Flat</strong></div></div></div></article>
-            </div>
-          </div>
-        </div>
-
-        <div class="screen" id="dashboard">
+        <div class="screen active" id="dashboard">
           <h1>Dashboard</h1>
           <div class="grid">
             <section class="banner">
@@ -331,7 +312,6 @@
 
     nav.forEach(item => item.onclick = () => go(item.dataset.go));
     document.querySelectorAll("[data-link]").forEach(item => item.onclick = () => go(item.dataset.link));
-    document.querySelectorAll(".portfolio .card[data-link]").forEach(item => item.onclick = () => go(item.dataset.link));
     document.querySelector("#menu").onclick = () => side.classList.toggle("open");
     document.querySelector("#search").oninput = event => {
       const query = event.target.value.toLowerCase();
